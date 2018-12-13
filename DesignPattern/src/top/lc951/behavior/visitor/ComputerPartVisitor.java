@@ -1,4 +1,4 @@
-package top.lc951.behavior;
+package top.lc951.behavior.visitor;
 
 public interface ComputerPartVisitor {
 	public void visit(Keyboard item);

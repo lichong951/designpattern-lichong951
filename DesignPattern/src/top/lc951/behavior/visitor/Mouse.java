@@ -1,6 +1,6 @@
-package top.lc951.behavior;
+package top.lc951.behavior.visitor;
 
-public class Keyboard implements ComputerPart {
+public class Mouse implements ComputerPart {
 
 	@Override
 	public void accept(ComputerPartVisitor computerParVisitor) {

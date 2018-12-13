@@ -1,4 +1,4 @@
-package top.lc951.behavior;
+package top.lc951.behavior.visitor;
 /**
  * 访问者模式
 在访问者模式（Visitor Pattern）中，我们使用了一个访问者类，它改变了元素类的执行算法。通过这种方式，
