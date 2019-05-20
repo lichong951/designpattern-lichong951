@@ -390,7 +390,6 @@ public class FileUtil {
             date = sdf.parse("2018-03-01");
             long longDate = date.getTime();
             long time = System.currentTimeMillis();
-            LogUtil.Logi(""+longDate+"time "+time);
         } catch (ParseException e) {
             e.printStackTrace();
         }

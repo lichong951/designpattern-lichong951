@@ -2,6 +2,7 @@ package top.lc951.utils;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -185,6 +186,119 @@ public class DataUtils {
             vaule*=2;
         }
         return vaule;
+    }
+
+    /**
+     * 字符串转换成十六进制字符串
+     *
+     * @param str str 待转换的ASCII字符串
+     * @return String 每个Byte之间空格分隔，如: [61 6C 6B]
+     */
+    public static String str2HexStr(String str) {
+
+        char[] chars = "0123456789ABCDEF".toCharArray();
+        StringBuilder sb = new StringBuilder("");
+        byte[] bs = str.getBytes();
+        int bit;
+
+        for (int i = 0; i < bs.length; i++) {
+            bit = (bs[i] & 0x0f0) >> 4;
+            sb.append(chars[bit]);
+            bit = bs[i] & 0x0f;
+            sb.append(chars[bit]);
+            sb.append(' ');
+        }
+        return sb.toString().trim();
+    }
+    /**
+     * 字符串转化为16进制
+     *
+     * @param message
+     * @return byte[]
+     */
+    public static byte[] getHexBytes(String message) {
+        int len = message.length() / 2;
+        char[] chars = message.toCharArray();
+        String[] hexStr = new String[len];
+        byte[] bytes = new byte[len];
+        for (int i = 0, j = 0; j < len; i += 2, j++) {
+            hexStr[j] = "" + chars[i] + chars[i + 1];
+            bytes[j] = (byte) Integer.parseInt(hexStr[j], 16);
+        }
+        return bytes;
+    }
+
+    //转化字符串为十六进制编码
+    public static String toHexString(String s) {
+        String str = "";
+        for (int i = 0; i < s.length(); i++) {
+            int ch = (int) s.charAt(i);
+            String s4 = Integer.toHexString(ch);
+            str = str + s4;
+        }
+        return str;
+    }
+    /**
+     * 将16进制字符串转换为byte[]
+     *
+     * @param str
+     * @return
+     */
+    public static byte[] toBytes(String str) {
+        if(str == null || str.trim().equals("")) {
+            return new byte[0];
+        }
+
+        byte[] bytes = new byte[str.length() / 2];
+        for(int i = 0; i < str.length() / 2; i++) {
+            String subStr = str.substring(i * 2, i * 2 + 2);
+            bytes[i] = (byte) Integer.parseInt(subStr, 16);
+        }
+
+        return bytes;
+    }
+    /**
+     * bytes转换成十六进制字符串
+     */
+    public static byte[] hexStr2Bytes(String src) {
+        int m = 0, n = 0;
+        int l = src.length() / 2;
+        System.out.println(l);
+        byte[] ret = new byte[l];
+        for (int i = 0; i < l; i++) {
+            m = i * 2 + 1;
+            n = m + 1;
+            ret[i] = uniteBytes(src.substring(i * 2, m), src.substring(m, n));
+        }
+        return ret;
+    }
+    private static byte uniteBytes(String src0, String src1) {
+        byte b0 = Byte.decode("0x" + src0).byteValue();
+        b0 = (byte) (b0 << 4);
+        byte b1 = Byte.decode("0x" + src1).byteValue();
+        byte ret = (byte) (b0 | b1);
+        return ret;
+    }
+
+    public static void main(String[] args) {
+        // 1、原始字符串
+        String str="$CFG SN\r\n";//24 43 46 47 20 53 4E 0D 0A
+        //2、转换成16进制字符串
+        String hexStr=str2HexStr(str);
+        //3、剔除空格
+        String hexStrNoBlank=hexStr.replaceAll(" ","");
+        //4、转换成byte[] 数组
+        byte[] bytes=toBytes(hexStrNoBlank);
+        System.out.println("转换后的字节数组：" + Arrays.toString(bytes));
+//        $CFG STATUSr\n
+
+        System.out.println("===============$CFG STATUSr\\n");
+        System.out.println(str2HexStr("$CFG STATUS\r\n"));
+
+         str = "e6b58be8af95";
+         str = "2443464720534E0D0A";
+        System.out.println("转换后的字节数组：" + Arrays.toString(toBytes(str)));
+        System.out.println(new String(toBytes(str)));
     }
 
 }
